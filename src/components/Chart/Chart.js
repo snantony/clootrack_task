@@ -1,7 +1,7 @@
 import React from "react";
 
 import { connect } from "react-redux";
-import {uid} from 'react-uid';
+import { uid } from "react-uid";
 
 import {
   Chart as ChartJS,
@@ -17,7 +17,7 @@ import { Bar, Pie } from "react-chartjs-2";
 
 import { updateData } from "../../redux/chartData/chartData.actions";
 
-import styles from './Chart.module.css';
+import styles from "./Chart.module.css";
 
 ChartJS.register(
   ArcElement,
@@ -68,20 +68,20 @@ const Chart = (props) => {
     }
   };
 
-  const handleOnChange = (e,mainIndex,index) => {
-    const {value} = e.target;
-    setChartData({mainIndex:mainIndex,dataIndex:index,value});
+  const handleOnChange = (e, mainIndex, index) => {
+    const { value } = e.target;
+    setChartData({ mainIndex: mainIndex, dataIndex: index, value });
   };
   return (
     <div className={styles.chartContainer}>
       <div className={styles.inputContainer}>
-        {elements.map((data,index) => {
+        {elements.map((data, index) => {
           return (
             <input
               key={uid(`input-${index}`)}
               type="number"
               value={data}
-              onChange={(e) => handleOnChange(e,mainIndex,index)}
+              onChange={(e) => handleOnChange(e, mainIndex, index)}
             />
           );
         })}
