@@ -1,0 +1,8 @@
+.chartContainer input{
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.chartContainer .inputContainer{
+    text-align: center;
+}

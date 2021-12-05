@@ -16,6 +16,8 @@ import { Bar, Pie } from "react-chartjs-2";
 
 import { updateData } from "../../redux/chartData/chartData.actions";
 
+import styles from './Chart.module.css';
+
 ChartJS.register(
   ArcElement,
   CategoryScale,
@@ -70,16 +72,18 @@ const Chart = (props) => {
     setChartData({mainIndex:mainIndex,dataIndex:index,value});
   };
   return (
-    <div>
-      {elements.map((data,index) => {
-        return (
-          <input
-            type="number"
-            value={data}
-            onChange={(e) => handleOnChange(e,mainIndex,index)}
-          />
-        );
-      })}
+    <div className={styles.chartContainer}>
+      <div className={styles.inputContainer}>
+        {elements.map((data,index) => {
+          return (
+            <input
+              type="number"
+              value={data}
+              onChange={(e) => handleOnChange(e,mainIndex,index)}
+            />
+          );
+        })}
+      </div>
       {getChart()}
     </div>
   );
