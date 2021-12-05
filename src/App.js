@@ -12,14 +12,14 @@ import style from './App.module.css';
 
 const App = (props) => {
   const { getChartData, ChartData } = props;
-
+  console.log(ChartData);
   useEffect(() => {
     getChartData();
   }, [getChartData]);
 
   const renderCharts = () => {
-    return ChartData.map((data) => {
-      return <Chart {...data} />;
+    return ChartData.map((data,index) => {
+      return <Chart {...data} mainIndex={index} />;
     });
   };
 

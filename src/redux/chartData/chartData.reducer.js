@@ -13,6 +13,17 @@ const chartReducer = (state = INITIAL_STATE, action) => {
         ChartData: action.payload,
         error: null,
       };
+    case ChartDataActionTypes.UPDATE_CHART_DATA:
+      const updatedChartData = [...state.ChartData];
+      const {mainIndex, dataIndex, value} = action.payload;
+      const elements = [...updatedChartData[mainIndex].elements];
+      elements[dataIndex] = parseInt(value);
+      updatedChartData[mainIndex].elements = elements;
+      return {
+        ...state,
+        ChartData: updatedChartData,
+        error: null,
+      };
     case ChartDataActionTypes.SET_ERROR:
       return {
         ...state,

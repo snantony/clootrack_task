@@ -1,5 +1,7 @@
 import React from "react";
 
+import { connect } from "react-redux";
+
 import {
   Chart as ChartJS,
   ArcElement,
@@ -12,29 +14,30 @@ import {
 } from "chart.js";
 import { Bar, Pie } from "react-chartjs-2";
 
+import { updateData } from "../../redux/chartData/chartData.actions";
+
 ChartJS.register(
-    ArcElement,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-  );
+  ArcElement,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Chart = (props) => {
-  const { type, elements } = props;
-  console.log(props);
+  const { type, elements, mainIndex, setChartData } = props;
 
   const getData = (label) => {
     const backgroundColor = [];
     const borderColor = [];
-    elements.forEach(element => {
-        const r = Math.floor(Math.random() * 256);
-        const g = Math.floor(Math.random() * 256);
-        const b = Math.floor(Math.random() * 256);
-        backgroundColor.push(`rgba(${r}, ${g}, ${b}, 0.2)`);
-        borderColor.push(`rgba(${r}, ${g}, ${b})`);
+    elements.forEach((element) => {
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      backgroundColor.push(`rgba(${r}, ${g}, ${b}, 0.2)`);
+      borderColor.push(`rgba(${r}, ${g}, ${b})`);
     });
     const data = {
       labels: elements,
@@ -50,18 +53,40 @@ const Chart = (props) => {
     };
     return data;
   };
-  
+
   const getChart = () => {
     switch (type) {
       case "Bar":
         return <Bar data={getData("Bar Chart")} />;
       case "Pie":
-        return <Pie data={getData("Pie Chart")}/>;
+        return <Pie data={getData("Pie Chart")} />;
       default:
         return null;
     }
   };
-  return <div>{getChart()}</div>;
+
+  const handleOnChange = (e,mainIndex,index) => {
+    const {value} = e.target;
+    setChartData({mainIndex:mainIndex,dataIndex:index,value});
+  };
+  return (
+    <div>
+      {elements.map((data,index) => {
+        return (
+          <input
+            type="number"
+            value={data}
+            onChange={(e) => handleOnChange(e,mainIndex,index)}
+          />
+        );
+      })}
+      {getChart()}
+    </div>
+  );
 };
 
-export default Chart;
+const mapDispatchToProps = (dispatch) => ({
+  setChartData: (data) => dispatch(updateData(data)),
+});
+
+export default connect(null, mapDispatchToProps)(Chart);
