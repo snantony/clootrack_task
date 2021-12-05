@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
-export default App;
+import { ChartData } from "./redux/chartData/chartData.selectors";
+import { onFetchData } from "./redux/chartData/chartData.actions";
+
+import Chart from "./components/Chart/Chart";
+
+import style from './App.module.css';
+
+const App = (props) => {
+  const { getChartData, ChartData } = props;
+
+  useEffect(() => {
+    getChartData();
+  }, [getChartData]);
+
+  const renderCharts = () => {
+    return ChartData.map((data) => {
+      return <Chart {...data} />;
+    });
+  };
+
+  return <div className={style.container}>{(ChartData.length > 0)?renderCharts():"No data"}</div>;
+};
+
+const mapStateToProps = createStructuredSelector({
+  ChartData: ChartData,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getChartData: () => dispatch(onFetchData()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
