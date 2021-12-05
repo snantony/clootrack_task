@@ -1,6 +1,7 @@
 import React from "react";
 
 import { connect } from "react-redux";
+import {uid} from 'react-uid';
 
 import {
   Chart as ChartJS,
@@ -77,6 +78,7 @@ const Chart = (props) => {
         {elements.map((data,index) => {
           return (
             <input
+              key={uid(`input-${index}`)}
               type="number"
               value={data}
               onChange={(e) => handleOnChange(e,mainIndex,index)}

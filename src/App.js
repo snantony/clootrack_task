@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import {uid} from 'react-uid';
 
 import { ChartData } from "./redux/chartData/chartData.selectors";
 import { onFetchData } from "./redux/chartData/chartData.actions";
@@ -19,7 +20,7 @@ const App = (props) => {
 
   const renderCharts = () => {
     return ChartData.map((data,index) => {
-      return <Chart {...data} mainIndex={index} />;
+      return <Chart key={uid(`chart-${index}`)} {...data} mainIndex={index} />;
     });
   };
 
